@@ -1,4 +1,4 @@
 # geradorEmail
 
 
-https://gerador-email.vercel.app/
+https://samuelalvesdev-geradoremail.vercel.app/
