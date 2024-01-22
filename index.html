@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email Generator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      #form-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+      }
+      #title {
+        margin-bottom: 20px;
+      }
+      #name-input {
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        width: 300px;
+        margin-bottom: 20px;
+      }
+      #generate-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 20px;
+      }
+      #email-result {
+        margin: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 5px;
+        width: 345px;
+      }
+      #copy-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="form-container">
+      <h1 id="title">Digite o nome do colaborador:</h1>
+      <input
+        type="text"
+        id="name-input"
+        placeholder="Digite o nome do colaborador"
+      />
+      <button id="generate-button">Gerar email corporativo</button>
+      <input id="email-result" type="text" readonly />
+      <button id="copy-button" data-email="">Copiar email</button>
+    </div>
+    <script>
+      const copyBtn = document.querySelector("#copy-button");
+      const nameInput = document.getElementById("name-input");
+      const generateButton = document.getElementById("generate-button");
+      const emailResult = document.getElementById("email-result");
+
+      function removeAccents(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      }
+
+      generateButton.addEventListener("click", () => {
+        const name = removeAccents(nameInput.value.trim());
+        const nameParts = name.split(" ");
+
+        if (nameParts.length < 2) {
+          alert(
+            "Por favor, digite um email com pelo menos 2 partes (Nome e Sobrenome)."
+          );
+          return;
+        }
+
+        const firstName = nameParts[0].toLowerCase();
+        const lastName = nameParts[nameParts.length - 1].toLowerCase();
+        const email = `${firstName}.${lastName}@empreenderdinheiro.com`;
+
+        emailResult.value = email;
+        copyBtn.dataset.email = email;
+      });
+
+      function copiar() {
+        const email = copyBtn.dataset.email;
+        if (email) {
+          navigator.clipboard.writeText(email);
+          alert("Email copiado com sucesso!");
+        } else {
+          alert("Gerar um email para copiar.");
+        }
+      }
+
+      copyBtn.addEventListener("click", copiar);
+    </script>
+  </body>
+</html>
